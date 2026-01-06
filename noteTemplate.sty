@@ -1,0 +1,191 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{noteTemplate}
+
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xstring}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[
+  top=5em,
+  bottom=4em,
+  left=6em,
+  right=6em,
+  headsep=1.5em,
+  footskip=4em,
+  includefoot
+]{geometry}
+
+% ---------- AUTHOR & DOCUMENT INFO ----------
+\author{
+    Chau, Truong 
+    \\Contact: https://chaunmt.com/
+    \\Github: https://github.com/chaunmt}
+    
+\newcommand{\DocumentTitle}{Title}
+
+% ---------- GLOBAL CONSTANTS ----------
+% Colors
+\definecolor{PageDarkBG}{HTML}{21222C}
+\definecolor{TitleColor}{HTML}{FF4DB8}
+\definecolor{ModuleColor}{HTML}{4FC3F7}
+
+\definecolor{TextPrimary}{HTML}{EAEAEA}
+\definecolor{TextSecondary}{HTML}{B0BEC5}
+\definecolor{TextMuted}{HTML}{8A8F98}
+
+\definecolor{EmphBlue}{HTML}{8AB4F8}
+\definecolor{EmphPink}{HTML}{FF4DB8}
+\definecolor{EmphGreen}{HTML}{69F0AE}
+\definecolor{EmphYellow}{HTML}{FFD54F}
+\definecolor{EmphPurple}{HTML}{B388FF}
+\definecolor{EmphCyan}{HTML}{4FC3F7}
+
+\newcommand{\textPrimary}[1]{\textcolor{TextPrimary}{#1}}  % Default
+\newcommand{\textSecondary}[1]{\textcolor{TextSecondary}{#1}}
+\newcommand{\textMuted}[1]{\textcolor{TextMuted}{#1}}
+
+\newcommand{\emphBlue}[1]{\textcolor{EmphBlue}{#1}}
+\newcommand{\emphPink}[1]{\textcolor{EmphPink}{#1}}
+\newcommand{\emphGreen}[1]{\textcolor{EmphGreen}{#1}}
+\newcommand{\emphYellow}[1]{\textcolor{EmphYellow}{#1}}
+\newcommand{\emphPurple}[1]{\textcolor{EmphPurple}{#1}}
+\newcommand{\emphCyan}[1]{\textcolor{EmphCyan}{#1}}
+
+% Font sizes
+\newcommand{\TitleFont}{\Large}
+\newcommand{\ModuleFont}{\large}
+\newcommand{\ItemFont}{\normalsize}
+
+% Spacing
+\newlength{\TitleSpace}
+\newlength{\SectionSpace}
+\newlength{\SectionSpaceTop}
+\newlength{\ItemSpace}
+\newlength{\ItemSpaceTop}
+
+\setlength{\TitleSpace}{1.6em}
+\setlength{\SectionSpace}{0.6em}
+\setlength{\SectionSpaceTop}{1em}
+\setlength{\ItemSpace}{0.2em}
+\setlength{\ItemSpaceTop}{0.4em}
+
+% Indent
+\newlength{\SectionIndent}
+\newlength{\HeaderLeftIndent}
+\newlength{\HeaderRightIndent}
+\newlength{\ItemBaseIndent}
+\newlength{\ItemIndentStep}
+
+\setlength{\SectionIndent}{-1em}
+\setlength{\HeaderLeftIndent}{-1em}
+\setlength{\ItemBaseIndent}{1.6em}
+\setlength{\ItemIndentStep}{0.2em}
+
+% Labels
+\newcommand{\ItemLabel}{--}
+
+% ---------- CONFIG ----------
+\pagecolor{PageDarkBG}
+\color{TextPrimary}
+
+\newcommand{\makeDocumentTitle}{%
+    \begin{center}
+        {\TitleFont \textbf{\textcolor{TitleColor}{\DocumentTitle}}}
+    \end{center}
+    \vspace{\TitleSpace}
+}
+
+\newcommand{\module}[1]{
+    \noindent
+    \hspace*{\SectionIndent}
+    {\ModuleFont \textbf{\textcolor{ModuleColor}{#1}}}%
+    \vspace{\SectionSpace}
+}
+
+% Config item by levels
+\makeatletter  % Need makeatletter for \@itemdepth
+\setlist[itemize]{
+  label={\ItemLabel},
+  font={\ItemFont},
+  leftmargin=\dimexpr\ItemBaseIndent + \@itemdepth\ItemIndentStep\relax,
+  itemsep=\ItemSpace,
+  topsep=\ItemSpace
+}
+\setlist[itemize,1]{  % Set style for first level item
+  label={\ItemLabel},
+  font={\ItemFont},
+  itemsep=\ItemSpace,
+  topsep=\ItemSpace
+}
+\makeatother
+
+% Make figure caption text muted
+\captionsetup{
+  font={small},
+  labelfont={color=TextMuted},
+  textfont={color=TextMuted}
+}
+
+
+% ---------- SYNTAX ----------
+\newcommand{\titleCenter}{\begin{center}}
+\newcommand{\xTitleCenter}{\end{center}}
+
+\newcommand{\note}{\begin{itemize}}
+\newcommand{\xNote}{\end{itemize}}
+
+\newcommand{\titleGap}{\vspace{\TitleSpace}}
+\newcommand{\sectionGap}{\vspace{\SectionSpaceTop}}
+\newcommand{\itemGap}{\vspace{\ItemSpaceTop}}
+
+% ---------- DIAGRAM ----------
+% Decode Presets
+\def\DecodeOriginal{0 1  0 1  0 1}            % Original
+\def\DecodeInvert{1 0  1 0  1 0}            % Full invert
+\def\DecodeDark{0.95 0  0.95 0  0.95 0}     % Invert with less contrast
+
+% #1=panel color #2=decode macro #3=width #4=caption #5=image path 
+\newcommand{\diagram}[5]{
+    \par\medskip 
+    {%
+        \centering
+        \ifx #1 \empty
+            \includegraphics[width=#3\linewidth, decodearray={#2}]{#5}%
+        \else
+            \colorbox{#1}{%
+                \includegraphics[width=#3\linewidth, decodearray={#2}]{#5}%
+            }%
+        \fi
+        \par
+        \captionof{figure}{#4}
+        \label{fig:\thefigure}
+    }% 
+    \par\medskip
+}
+
+\newcommand{\LabelFromCaption}[1]{%
+  \StrRemoveAll{#1}{ }[\TmpLabel]%
+  fig:\TmpLabel%
+}
+
+
+\newcommand{\diagramBase}[3]{
+    \diagram{ }{\DecodeOriginal}{#1}{#2}{#3}
+}
+
+\newcommand{\diagramWhite}[3]{
+    \diagram{white}{\DecodeOriginal}{#1}{#2}{#3}
+}
+
+\newcommand{\diagramInvert}[3]{
+    \diagram{black}{\DecodeInvert}{#1}{#2}{#3}
+}
+
+\newcommand{\diagramDark}[3]{
+    \diagram{black}{\DecodeDark}{#1}{#2}{#3}
+}
