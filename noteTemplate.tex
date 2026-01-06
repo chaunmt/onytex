@@ -1,0 +1,59 @@
+\documentclass[12pt]{article}
+\usepackage{noteTemplate}
+
+% ---------- DOCUMENT ----------
+\begin{document}
+
+% Title
+\makeDocumentTitle
+
+% Module 1
+\module{1. Item Level}
+\note
+    \itemGap
+    \item note 1, item 1
+    \note
+        \item note 2, item 1
+        \note
+            \item note 3, item 1
+        \xNote
+    \xNote
+\xNote
+
+% Module 2
+\sectionGap
+\module{2. Text Colors}
+\note
+    \itemGap
+    \item another note 1, item 1 with \textPrimary{primary text} and other part
+    \item another note 1, item 1 with \textSecondary{secondary text} and other part
+    \item another note 1, item 1 with \textMuted{muted text} and other part
+    \item another note 1, item 1 with \emphBlue{blue emphasis} and other part
+    \item another note 1, item 1 with \emphPink{pink emphasis} and other part
+    \item another note 1, item 1 with \emphGreen{green emphasis} and other part
+    \item another note 1, item 1 with \emphYellow{yellow emphasis} and other part
+    \item another note 1, item 1 with \emphPurple{purple emphasis} and other part
+    \item another note 1, item 1 with \emphCyan{cyan emphasis} and other part
+    \item in fact you can also \emphCyan{nest \emphPink{bunch of these \emphGreen{colorful} texts} together}
+\xNote
+
+\module{3. Image}
+\note
+    \itemGap
+    \item Image + No Panel
+    \diagramBase{0.6}{Sample}{img/UnmanagedAndManagedServices.png}
+
+    \itemGap
+    \item Image + White Panel
+    \diagramWhite{0.6}{Sample}{img/UnmanagedAndManagedServices.png}
+    
+    \itemGap
+    \item Image + Invert + Black Panel
+    \diagramInvert{0.6}{Sample}{img/UnmanagedAndManagedServices.png}
+    
+    \itemGap
+    \item Image + Dark + Black Panel
+    \diagramDark{0.6}{Sample}{img/UnmanagedAndManagedServices.png}
+\xNote
+
+\end{document}
