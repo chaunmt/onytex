@@ -4,6 +4,7 @@
 \usepackage{lmodern}
 \renewcommand{\familydefault}{\sfdefault}
 
+\usepackage{amssymb}
 \usepackage{xstring}
 \usepackage{caption}
 \usepackage{graphicx}
@@ -19,6 +20,7 @@
   footskip=4em,
   includefoot
 ]{geometry}
+\usepackage[most]{tcolorbox}
 
 % ---------- AUTHOR & DOCUMENT INFO ----------
 \author{
@@ -101,6 +103,7 @@
 }
 
 \newcommand{\module}[1]{
+    \sectionGap
     \noindent
     \hspace*{\SectionIndent}
     {\ModuleFont \textbf{\textcolor{ModuleColor}{#1}}}%
@@ -173,7 +176,6 @@
   fig:\TmpLabel%
 }
 
-
 \newcommand{\diagramBase}[3]{
     \diagram{ }{\DecodeOriginal}{#1}{#2}{#3}
 }
@@ -189,3 +191,163 @@
 \newcommand{\diagramDark}[3]{
     \diagram{black}{\DecodeDark}{#1}{#2}{#3}
 }
+
+% ---------- COLOR BOX ----------
+
+% Base Style
+\tcbset{
+  colorBase/.style={
+    enhanced,
+    frame hidden,
+    colback=PageDarkBG,
+    coltext=.,
+    boxrule=0pt,
+    arc=4pt,
+    outer arc=4pt,
+  },
+  colorInline/.style={
+    colorBase,
+    on line,
+    boxsep=3pt,
+    left=6pt,
+    right=6pt,
+    top=4pt,
+    bottom=4pt,
+  },
+  colorBlock/.style={
+    colorBase,
+    boxsep=6pt,
+    left=8pt,
+    right=8pt,
+    top=6pt,
+    bottom=6pt,
+  }
+}
+
+% Inline Helper
+\newcommand{\colorBox}[4]{%
+  \IfStrEq{#3}{dash}{%
+    \tcbox[
+      colorInline,
+      borderline={#2}{0pt}{#1,dash pattern=on 4pt off 3pt}
+    ]{#4}%
+  }{%
+    \tcbox[
+      colorInline,
+      borderline={#2}{0pt}{#1}
+    ]{#4}%
+  }%
+}
+
+% Block Helper
+\newcommand{\cbStartBlock}[3]{%
+  \IfStrEq{#3}{dash}{%
+    \tcolorbox[
+      colorBlock,
+      borderline={#2}{0pt}{#1,dash pattern=on 4pt off 3pt}
+    ]%
+  }{%
+    \tcolorbox[
+      colorBlock,
+      borderline={#2}{0pt}{#1}
+    ]%
+  }%
+}
+
+% Thickness helpers
+\newcommand{\cbLight}{1pt}
+\newcommand{\cbRegular}{1.6pt}
+\newcommand{\cbBold}{2.4pt}
+
+% Inline generator
+\newcommand{\defineColorBoxes}[2]{%
+  % #1 = Name (Blue)
+  % #2 = Color (EmphBlue)
+
+  % Solid
+  \expandafter\newcommand\csname box#1SolidLight\endcsname[1]{%
+    \colorBox{#2}{\cbLight}{solid}{##1}%
+  }
+  \expandafter\newcommand\csname box#1SolidRegular\endcsname[1]{%
+    \colorBox{#2}{\cbRegular}{solid}{##1}%
+  }
+  \expandafter\newcommand\csname box#1SolidBold\endcsname[1]{%
+    \colorBox{#2}{\cbBold}{solid}{##1}%
+  }
+
+  % Dash
+  \expandafter\newcommand\csname box#1DashLight\endcsname[1]{%
+    \colorBox{#2}{\cbLight}{dash}{##1}%
+  }
+  \expandafter\newcommand\csname box#1DashRegular\endcsname[1]{%
+    \colorBox{#2}{\cbRegular}{dash}{##1}%
+  }
+  \expandafter\newcommand\csname box#1DashBold\endcsname[1]{%
+    \colorBox{#2}{\cbBold}{dash}{##1}%
+  }
+}
+
+% Block Generator
+\newcommand{\defineColorBlocks}[2]{%
+  % #1 = Name (Blue)
+  % #2 = Color (EmphBlue)
+
+  % Solid
+  \expandafter\def\csname block#1SolidLight\endcsname{%
+    \cbStartBlock{#2}{\cbLight}{solid}%
+  }
+  \expandafter\def\csname endblock#1SolidLight\endcsname{%
+    \endtcolorbox
+  }
+
+  \expandafter\def\csname block#1SolidRegular\endcsname{%
+    \cbStartBlock{#2}{\cbRegular}{solid}%
+  }
+  \expandafter\def\csname endblock#1SolidRegular\endcsname{%
+    \endtcolorbox
+  }
+
+  \expandafter\def\csname block#1SolidBold\endcsname{%
+    \cbStartBlock{#2}{\cbBold}{solid}%
+  }
+  \expandafter\def\csname endblock#1SolidBold\endcsname{%
+    \endtcolorbox
+  }
+
+  % Dash
+  \expandafter\def\csname block#1DashLight\endcsname{%
+    \cbStartBlock{#2}{\cbLight}{dash}%
+  }
+  \expandafter\def\csname endblock#1DashLight\endcsname{%
+    \endtcolorbox
+  }
+
+  \expandafter\def\csname block#1DashRegular\endcsname{%
+    \cbStartBlock{#2}{\cbRegular}{dash}%
+  }
+  \expandafter\def\csname endblock#1DashRegular\endcsname{%
+    \endtcolorbox
+  }
+
+  \expandafter\def\csname block#1DashBold\endcsname{%
+    \cbStartBlock{#2}{\cbBold}{dash}%
+  }
+  \expandafter\def\csname endblock#1DashBold\endcsname{%
+    \endtcolorbox
+  }
+}
+
+% ===== DEFINE COLORS =====
+\defineColorBoxes{Blue}{EmphBlue}
+\defineColorBoxes{Pink}{EmphPink}
+\defineColorBoxes{Green}{EmphGreen}
+\defineColorBoxes{Yellow}{EmphYellow}
+\defineColorBoxes{Purple}{EmphPurple}
+\defineColorBoxes{Cyan}{EmphCyan}
+
+\defineColorBlocks{Blue}{EmphBlue}
+\defineColorBlocks{Pink}{EmphPink}
+\defineColorBlocks{Green}{EmphGreen}
+\defineColorBlocks{Yellow}{EmphYellow}
+\defineColorBlocks{Purple}{EmphPurple}
+\defineColorBlocks{Cyan}{EmphCyan}
