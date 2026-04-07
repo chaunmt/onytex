@@ -35,6 +35,7 @@
 \definecolor{PageDarkBG}{HTML}{21222C}
 \definecolor{TitleColor}{HTML}{FF4DB8}
 \definecolor{ModuleColor}{HTML}{4FC3F7}
+\definecolor{SubmoduleColor}{HTML}{4FC3F7}
 
 \definecolor{TextPrimary}{HTML}{EAEAEA}
 \definecolor{TextSecondary}{HTML}{B0BEC5}
@@ -61,29 +62,36 @@
 % Font sizes
 \newcommand{\TitleFont}{\Large}
 \newcommand{\ModuleFont}{\large}
+\newcommand{\SubmoduleFont}{\normalsize}
 \newcommand{\ItemFont}{\normalsize}
 
 % Spacing
 \newlength{\TitleSpace}
 \newlength{\SectionSpace}
 \newlength{\SectionSpaceTop}
+\newlength{\SubsectionSpace}
+\newlength{\SubsectionSpaceTop}
 \newlength{\ItemSpace}
 \newlength{\ItemSpaceTop}
 
 \setlength{\TitleSpace}{1.6em}
 \setlength{\SectionSpace}{0.6em}
 \setlength{\SectionSpaceTop}{1em}
+\setlength{\SubsectionSpace}{0.4em}
+\setlength{\SubsectionSpaceTop}{0.6em}
 \setlength{\ItemSpace}{0.2em}
 \setlength{\ItemSpaceTop}{0.4em}
 
 % Indent
 \newlength{\SectionIndent}
+\newlength{\SubsectionIndent}
 \newlength{\HeaderLeftIndent}
 \newlength{\HeaderRightIndent}
 \newlength{\ItemBaseIndent}
 \newlength{\ItemIndentStep}
 
 \setlength{\SectionIndent}{-1em}
+\setlength{\SubsectionIndent}{-2.4em}
 \setlength{\HeaderLeftIndent}{-1em}
 \setlength{\ItemBaseIndent}{1.6em}
 \setlength{\ItemIndentStep}{0.2em}
@@ -108,6 +116,14 @@
     \hspace*{\SectionIndent}
     {\ModuleFont \textbf{\textcolor{ModuleColor}{#1}}}%
     \vspace{\SectionSpace}
+}
+
+\newcommand{\submodule}[1]{
+    \item[]
+    \vspace{\SubsectionSpaceTop}
+    \hspace*{\SubsectionIndent}%
+    {\SubmoduleFont \textbf{\textcolor{SubmoduleColor}{#1}}}%
+    \vspace{\SubsectionSpace}
 }
 
 % Config item by levels
@@ -144,6 +160,7 @@
 
 \newcommand{\titleGap}{\vspace{\TitleSpace}}
 \newcommand{\sectionGap}{\vspace{\SectionSpaceTop}}
+\newcommand{\subsectionGap}{\vspace{\SubsectionSpaceTop}}
 \newcommand{\itemGap}{\vspace{\ItemSpaceTop}}
 
 % ---------- DIAGRAM ----------
