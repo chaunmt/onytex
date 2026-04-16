@@ -126,6 +126,10 @@
     \vspace{\SubsectionSpace}
 }
 
+\newcommand{\itemStar}{\item[$\star$]}
+\newcommand{\itemAst}{\item[$\ast$]}
+\newcommand{\itemNaN}{\item[]}
+
 % Config item by levels
 \makeatletter  % Need makeatletter for \@itemdepth
 \setlist[itemize]{
@@ -260,18 +264,36 @@
 }
 
 % Block Helper
-\newcommand{\cbStartBlock}[3]{%
+\newcommand{\cbStartBlock}[4]{%
+  % #1 = Color
+  % #2 = Border thickness
+  % #3 = Border type (solid/dash)
+  % #4 = Title (can be empty)
+  \def\cbtmp{#4}%
   \IfStrEq{#3}{dash}{%
-    \tcolorbox[
-      colorBlock,
-      borderline={#2}{0pt}{#1,dash pattern=on 4pt off 3pt}
-    ]%
+    \ifx\cbtmp\empty
+      \edef\cbAllOpts{colorBlock,
+        borderline={#2}{0pt}{#1,dash pattern=on 4pt off 3pt}}%
+    \else
+      \edef\cbAllOpts{colorBlock,
+        borderline={#2}{0pt}{#1,dash pattern=on 4pt off 3pt},
+        title={\unexpanded{#4}},coltitle={#1},colbacktitle=PageDarkBG,
+        colframe=PageDarkBG,fonttitle=\unexpanded{\bfseries},
+        attach boxed title to top left}%
+    \fi
   }{%
-    \tcolorbox[
-      colorBlock,
-      borderline={#2}{0pt}{#1}
-    ]%
+    \ifx\cbtmp\empty
+      \edef\cbAllOpts{colorBlock,
+        borderline={#2}{0pt}{#1}}%
+    \else
+      \edef\cbAllOpts{colorBlock,
+        borderline={#2}{0pt}{#1},
+        title={\unexpanded{#4}},coltitle={#1},colbacktitle=PageDarkBG,
+        colframe=PageDarkBG,fonttitle=\unexpanded{\bfseries},
+        attach boxed title to top left}%
+    \fi
   }%
+  \expandafter\tcolorbox\expandafter[\cbAllOpts]%
 }
 
 % Thickness helpers
@@ -281,7 +303,7 @@
 
 % Inline generator
 \newcommand{\defineColorBoxes}[2]{%
-  % #1 = Name (Blue)
+  % #1 = Color Name (Blue)
   % #2 = Color (EmphBlue)
 
   % Solid
@@ -309,55 +331,34 @@
 
 % Block Generator
 \newcommand{\defineColorBlocks}[2]{%
-  % #1 = Name (Blue)
-  % #2 = Color (EmphBlue)
-
   % Solid
-  \expandafter\def\csname block#1SolidLight\endcsname{%
-    \cbStartBlock{#2}{\cbLight}{solid}%
-  }
-  \expandafter\def\csname endblock#1SolidLight\endcsname{%
-    \endtcolorbox
-  }
-
-  \expandafter\def\csname block#1SolidRegular\endcsname{%
-    \cbStartBlock{#2}{\cbRegular}{solid}%
-  }
-  \expandafter\def\csname endblock#1SolidRegular\endcsname{%
-    \endtcolorbox
-  }
-
-  \expandafter\def\csname block#1SolidBold\endcsname{%
-    \cbStartBlock{#2}{\cbBold}{solid}%
-  }
-  \expandafter\def\csname endblock#1SolidBold\endcsname{%
-    \endtcolorbox
-  }
+  \NewDocumentEnvironment{block#1SolidLight}{O{}}{%
+    \cbStartBlock{#2}{\cbLight}{solid}{##1}%
+  }{\endtcolorbox}
+  
+  \NewDocumentEnvironment{block#1SolidRegular}{O{}}{%
+    \cbStartBlock{#2}{\cbRegular}{solid}{##1}%
+  }{\endtcolorbox}
+  
+  \NewDocumentEnvironment{block#1SolidBold}{O{}}{%
+    \cbStartBlock{#2}{\cbBold}{solid}{##1}%
+  }{\endtcolorbox}
 
   % Dash
-  \expandafter\def\csname block#1DashLight\endcsname{%
-    \cbStartBlock{#2}{\cbLight}{dash}%
-  }
-  \expandafter\def\csname endblock#1DashLight\endcsname{%
-    \endtcolorbox
-  }
-
-  \expandafter\def\csname block#1DashRegular\endcsname{%
-    \cbStartBlock{#2}{\cbRegular}{dash}%
-  }
-  \expandafter\def\csname endblock#1DashRegular\endcsname{%
-    \endtcolorbox
-  }
-
-  \expandafter\def\csname block#1DashBold\endcsname{%
-    \cbStartBlock{#2}{\cbBold}{dash}%
-  }
-  \expandafter\def\csname endblock#1DashBold\endcsname{%
-    \endtcolorbox
-  }
+  \NewDocumentEnvironment{block#1DashLight}{O{}}{%
+    \cbStartBlock{#2}{\cbLight}{dash}{##1}%
+  }{\endtcolorbox}
+  
+  \NewDocumentEnvironment{block#1DashRegular}{O{}}{%
+    \cbStartBlock{#2}{\cbRegular}{dash}{##1}%
+  }{\endtcolorbox}
+  
+  \NewDocumentEnvironment{block#1DashBold}{O{}}{%
+    \cbStartBlock{#2}{\cbBold}{dash}{##1}%
+  }{\endtcolorbox}
 }
 
-% ===== DEFINE COLORS =====
+% ===== DEFINE COLOR BOXES AND COLOR BLOCKES =====
 \defineColorBoxes{Blue}{EmphBlue}
 \defineColorBoxes{Pink}{EmphPink}
 \defineColorBoxes{Green}{EmphGreen}
