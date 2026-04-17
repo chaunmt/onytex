@@ -2,12 +2,9 @@
 Latex dark mode theme for note taking
 
 ## Sample
-- Items
-<img width="746" height="722" alt="Screenshot 2026-04-17 at 10 13 30 AM" src="https://github.com/user-attachments/assets/e55918d8-4909-4da0-ae48-ee7097b90281" />
-<img width="749" height="633" alt="Screenshot 2026-04-17 at 10 12 36 AM" src="https://github.com/user-attachments/assets/609941e4-6c0b-4357-8811-4233270d9692" />
-
-- Images/Diagrams
-<img width="765" height="836" alt="Screenshot 2026-04-17 at 10 17 54 AM" src="https://github.com/user-attachments/assets/fac34be4-5279-4913-bd6f-893daef5458b" />
+<img width="652" height="842" alt="Screenshot 2026-04-17 at 10 36 57 AM" src="https://github.com/user-attachments/assets/727003c8-6d5f-4280-8fb1-ea8a7435def8" />
+<img width="656" height="844" alt="Screenshot 2026-04-17 at 10 37 14 AM" src="https://github.com/user-attachments/assets/2260bc53-cd03-4194-856e-4698899372ef" />
+<img width="656" height="849" alt="Screenshot 2026-04-17 at 10 37 31 AM" src="https://github.com/user-attachments/assets/4bf0bb54-458f-45c3-a84b-ef4d4c432f1f" />
 
 ## Resources
 <a href="https://www.flaticon.com/free-icons/black-cat" title="black cat icons">Black cat icons created by Yasashii std - Flaticon</a>
